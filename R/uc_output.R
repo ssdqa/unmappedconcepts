@@ -34,7 +34,7 @@ uc_output <- function(process_output,
   }else if(output_function == 'uc_ms_anom_cs'){
 
     uc_output <- uc_ms_anom_cs(process_output = process_output,
-                               filter_variable = filter_variable,
+                               output_col = output_col,
                                large_n = large_n,
                                large_n_sites = large_n_sites)
 
