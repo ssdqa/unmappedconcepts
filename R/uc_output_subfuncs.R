@@ -1,4 +1,19 @@
 
+#'
+#' @import ggplot2
+#' @import ggiraph
+#' @import gt
+#' @importFrom tidyr tibble
+#' @importFrom tidyr unite
+#' @importFrom qicharts2 qic
+#' @importFrom timetk plot_anomalies
+#' @importFrom timetk plot_anomalies_decomp
+#' @importFrom plotly layout
+#' @importFrom graphics text
+#' @importFrom patchwork plot_layout
+#'
+NULL
+
 uc_ss_exp_cs <- function(process_output,
                          output_col,
                          facet = NULL){
