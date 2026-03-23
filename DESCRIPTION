@@ -1,0 +1,52 @@
+Package: unmappedconcepts
+Title: Identify Unmapped or NULL Concept Distributions
+Version: 0.0.0.9000
+Authors@R: 
+    c(person("Hanieh", "Razzaghi", email = "razzaghih@chop.edu", role = c("aut"),
+             comment = c(ORCID = "0000-0001-5001-1590")),
+      person("Kaleigh", "Wieand", email = "wieandk@chop.edu", role = c("aut", "cre"),
+             comment = c(ORCID = "0009-0003-7477-2601")),
+      person("Kimberley", "Dickinson", email = "dickinsokl@chop.edu", role = c("aut"),
+             comment = c(ORCID = "0000-0001-9523-056X")),
+      person("Charles", "Bailey", email = "baileyc@chop.edu", role = c("aut"),
+             comment = c(ORCID = "0000-0002-8967-0662")))
+Description: The Unmapped Concepts module, part of the larger SQUBA ecosystem, evaluates
+    the distribution of NULL or unmapped (as defined by the user) concepts at the row and patient
+    levels. The module will also assess the median number of unmapped values per patient, allowing
+    the user to determine if unmapped values are dispersed across the whole cohort.
+License: MPL-2.0
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
+URL: https://github.com/ssdqa/unmappedconcepts
+BugReports: https://github.com/ssdqa/unmappedconcepts/issues
+Imports: 
+    cli (>= 3.6.3),
+    dplyr (>= 1.1.4),
+    ggiraph (>= 0.8.9),
+    ggplot2 (>= 3.5.0),
+    gt (>= 1.0.0),
+    magrittr,
+    plotly (>= 4.10.4),
+    purrr (>= 1.0.2),
+    qicharts2 (>= 0.7.4),
+    rlang (>= 1.1.4),
+    stats (>= 4.4.0),
+    stringr (>= 1.5.1),
+    tidyr (>= 1.3.1),
+    timetk (>= 2.9.0)
+Remotes: PEDSnet/argos, ssdqa/squba.gen
+Depends: 
+    argos,
+    squba.gen,
+    R (>= 2.10)
+LazyData: true
+Suggests: 
+    DBI,
+    knitr,
+    readr,
+    rmarkdown,
+    RSQLite,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+VignetteBuilder: knitr
