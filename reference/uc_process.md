@@ -243,6 +243,8 @@ uc_process_example <- uc_process(cohort = cohort,
 #> │ You can optionally use this dataframe in the accompanying    │
 #> │ `uc_output` function. Here are the parameters you will need: │
 #> │                                                              │
+#> │ Always Required: process_output                              │
+#> │ Required for Check: output_col                               │
 #> │                                                              │
 #> │ See ?uc_output for more details.                             │
 #> └──────────────────────────────────────────────────────────────┘

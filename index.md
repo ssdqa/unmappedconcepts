@@ -1,8 +1,5 @@
 # Unmapped Concepts
 
-[![CRAN
-status](https://www.r-pkg.org/badges/version/unmappedconcepts)](https://CRAN.R-project.org/package=unmappedconcepts)
-
 The Unmapped Concepts module evaluates the distribution of unmapped
 values in a cohort, looking both at the proportion of unmapped values
 for a given variable and at the median number of unmapped rows per
