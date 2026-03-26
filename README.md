@@ -1,8 +1,9 @@
 # Unmapped Concepts
 
-  <!-- badges: start -->
-  [![CRAN status](https://www.r-pkg.org/badges/version/unmappedconcepts)](https://CRAN.R-project.org/package=unmappedconcepts)
-  <!-- badges: end -->
+<!-- badges: start -->
+[![CRAN status](https://www.r-pkg.org/badges/version/unmappedconcepts)](https://CRAN.R-project.org/package=unmappedconcepts)
+[![R-CMD-check](https://github.com/ssdqa/unmappedconcepts/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ssdqa/unmappedconcepts/actions/workflows/R-CMD-check.yaml)
+<!-- badges: end -->
 
 The Unmapped Concepts module evaluates the distribution of unmapped values in a
 cohort, looking both at the proportion of unmapped values for a given variable
