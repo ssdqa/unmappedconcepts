@@ -1,0 +1,117 @@
+# Multi-Site Analysis for Independent Data Sources
+
+The multi-site analyses included in this suite are intended to be
+executed against data that are all stored in the same place. However,
+there may be some instances where the data associated with each site is
+stored in independent locations. This vignette outlines how the
+multi-site analysis can be executed in these instances.
+
+After following the instructions to reproduce the analysis, you will
+also need to change the `output_function` column to tell the `uc_output`
+function which check you executed. Reference the table below for the
+labels that are associated with each check:
+
+| Check Type                                     | output_function |
+|:-----------------------------------------------|:----------------|
+| Multi Site, Exploratory, Cross-Sectional       | uc_ms_exp_cs    |
+| Multi Site, Exploratory, Longitudinal          | uc_ms_exp_la    |
+| Multi Site, Anomaly Detection, Cross-Sectional | uc_ms_anom_cs   |
+| Multi Site, Anomaly Detection, Longitudinal    | uc_ms_anom_la   |
+
+## Multi-Site Exploratory Analysis
+
+The process for the exploratory analysis is the same for both the
+cross-sectional and longitudinal configurations.
+
+First, execute either of the **Single Site, Exploratory** analyses,
+configured appropriately for your study, against each data source.
+
+``` r
+library(unmappedconcepts)
+
+my_table <- uc_process(cohort = my_cohort,
+                       multi_or_single_site = 'single',
+                       anomaly_or_exploratory = 'exploratory',
+                       time = T / F,
+                       patient_level_tbl = T / F
+                       ...)
+```
+
+The `median_all_*` columns will not reflect the overall median using
+this method. This is typically used as a baseline comparison metric in
+`uc_output`. If you do not mind the lack of an overall comparison metric
+and would just like to compare site-level medians, all you need to do is
+union each table together and adjust the `output_function` accordingly.
+
+``` r
+my_final_results <- my_table1 %>% dplyr::union(my_table2) ... %>%
+  dplyr::union(my_table_n) %>%
+  dplyr::mutate(output_function = 'uc_ms_exp_(cs/la)')
+```
+
+If you would like to have the overall median available, you will need to
+output patient-level results in addition to the standard summary output
+(`patient_level_tbl = T`). Once patient-level output is returned from
+each data source, you will need to union these tables together and
+recompute the overall median.
+
+``` r
+my_combined_results <- my_table1 %>% dplyr::union(my_table2) ... %>%
+  dplyr::union(my_table_n) %>%
+  dplyr::mutate(output_function = 'uc_ms_exp_(cs/la)')
+
+## Cross-Sectional
+my_final_results <- my_combined_results %>%
+  group_by(variable) %>%
+  summarise(median_all_with0s = as.numeric(median(unmapped)),
+            median_all_without0s = as.numeric(median(unmapped[unmapped!=0]))) %>%
+  mutate(median_all_without0s = ifelse(is.na(median_all_without0s), 0L, median_all_without0s))
+
+## Longitudinal
+my_final_results <- my_combined_results %>%
+  group_by(variable, time_start, time_end) %>%
+  summarise(median_all_with0s = as.numeric(median(unmapped)),
+            median_all_without0s = as.numeric(median(unmapped[unmapped!=0]))) %>%
+  mutate(median_all_without0s = ifelse(is.na(median_all_without0s), 0L, median_all_without0s))
+```
+
+## Multi-Site Anomaly Detection Analysis
+
+Multi-site anomaly detection can **only** be executed against the
+proportional results produced by this module. As such, you may follow
+the instructions for `Multi-Site, Exploratory` output without producing
+patient-level results, then proceed to the appropriate anomaly detection
+method below.
+
+### Cross-Sectional
+
+After producing a combined result set, execute the code below (using
+functions from the `squba.gen` package) to run the anomaly detection
+analysis. The `p_value` can be selected by the user.
+
+``` r
+df_start <- compute_dist_anomalies(df_tbl = my_combined_results,
+                                   grp_vars = c('variable'),
+                                   var_col = {`unmapped_row_prop`, `unmapped_pt_prop`},
+                                   denom_cols = c('variable', 'total_pt', 
+                                                  'total_rows'))
+
+df_final <- detect_outliers(df_tbl = df_start,
+                            tail_input = 'both',
+                            p_input = p_value,
+                            column_analysis = {`unmapped_row_prop`, `unmapped_pt_prop`},
+                            column_variable = 'variable') %>%
+  mutate(output_function = 'uc_ms_anom_cs')
+```
+
+### Longitudinal
+
+After producing a combined result set, execute the code below (using
+functions from the `squba.gen` package) to run the anomaly detection
+analysis.
+
+``` r
+df_final <- ms_anom_euclidean(fot_input_tbl = my_combined_results,
+                              grp_vars = c('site', 'variable'),
+                              var_col = {`unmapped_row_prop`, `unmapped_pt_prop`})
+```

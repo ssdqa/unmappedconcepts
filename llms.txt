@@ -1,0 +1,40 @@
+# Unmapped Concepts
+
+[![CRAN
+status](https://www.r-pkg.org/badges/version/unmappedconcepts)](https://CRAN.R-project.org/package=unmappedconcepts)
+
+The Unmapped Concepts module evaluates the distribution of unmapped
+values in a cohort, looking both at the proportion of unmapped values
+for a given variable and at the median number of unmapped rows per
+patient in the cohort.
+
+## Installation
+
+You can install the development version of this package like so:
+
+``` r
+devtools::install_github('ssdqa/unmappedconcepts')
+```
+
+# Package index
+
+## Module Execution
+
+- [`uc_process()`](https://ssdqa.github.io/unmappedconcepts/reference/uc_process.md)
+  : Unmapped Concepts
+- [`uc_output()`](https://ssdqa.github.io/unmappedconcepts/reference/uc_output.md)
+  : Unmapped Concepts – Output Generation
+
+## Sample Input
+
+- [`uc_input_file_omop`](https://ssdqa.github.io/unmappedconcepts/reference/uc_input_file_omop.md)
+  : UC Sample Input File – OMOP
+- [`uc_input_file_pcornet`](https://ssdqa.github.io/unmappedconcepts/reference/uc_input_file_pcornet.md)
+  : UC Sample Input File – PCORnet
+
+# Articles
+
+### All vignettes
+
+- [Multi-Site Analysis for Independent Data
+  Sources](https://ssdqa.github.io/unmappedconcepts/articles/multisite_independent.md):
