@@ -1,2 +1,5 @@
 ^unmappedconcepts\.Rproj$
 ^\.Rproj\.user$
+^LICENSE.txt
+^data-raw$
+^cran-comments\.md$

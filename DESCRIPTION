@@ -40,7 +40,7 @@ Remotes: PEDSnet/argos, ssdqa/squba.gen
 Depends: 
     argos,
     squba.gen,
-    R (>= 2.10)
+    R (>= 3.5)
 LazyData: true
 Suggests: 
     DBI,

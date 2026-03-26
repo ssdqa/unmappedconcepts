@@ -1,0 +1,18 @@
+
+utils::globalVariables(c('.', 'allsite_median', 'allsite_q1', 'allsite_q3',
+                         'anomaly_yn', 'cl', 'closest_site', 'ct', 'delim',
+                         'dist_eucl_mean', 'dist_mean', 'dist_mean_sum',
+                         'end_date', 'facet_col', 'farthest_site', 'iqr_val',
+                         'lcl', 'mad_val', 'mapped', 'mean_allsite_prop',
+                         'mean_fact', 'mean_site_loess', 'mean_tot', 'mean_val',
+                         'median_all_without0s', 'median_site_without0s',
+                         'median_val', 'n_grp', 'n_w_fact', 'nvar', 'outlier',
+                         'outlier_fact', 'outlier_tot', 'overall_sd', 'person_id',
+                         'prop', 'prop_outlier_fact', 'prop_outlier_tot', 'q1',
+                         'q3', 'sd_fact', 'sd_tot', 'sd_val', 'site', 'site_anoms',
+                         'site_loess', 'site_w_anom', 'start_date', 'tag',
+                         'text_raw', 'time_end', 'time_increment', 'time_start',
+                         'tooltip', 'total_pt', 'total_rows', 'ucl', 'unmapped',
+                         'unmapped_pt', 'unmapped_pt_prop', 'unmapped_row_prop',
+                         'unmapped_rows', 'value', 'variable', 'x', 'y',
+                         'zscore_fact', 'zscore_tot', 'zscr', 'mean_allsiteprop'))

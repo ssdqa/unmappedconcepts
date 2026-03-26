@@ -11,9 +11,24 @@
 #' @importFrom plotly layout
 #' @importFrom graphics text
 #' @importFrom patchwork plot_layout
+#' @importFrom stats quantile
+#' @importFrom stats sd
 #'
 NULL
 
+#' *Single Site, Exploratory, Cross-Sectional*
+#'
+#' @param process_output tabular output from `uc_process`
+#' @param output_col name of the column from process_output to be used in the analysis.
+#'     can be any of the numeric cols, including either proportion col or any of the
+#'     median cols
+#' @param facet fields by which the graph should be facetted
+#'
+#' @returns a bar graph displaying either the proportion of unmapped rows/patients or the
+#'          median number of unmapped values per patient for each variable
+#'
+#' @keywords internal
+#'
 uc_ss_exp_cs <- function(process_output,
                          output_col,
                          facet = NULL){
@@ -60,6 +75,24 @@ uc_ss_exp_cs <- function(process_output,
 
 
 
+#' *Multi Site, Exploratory, Cross-Sectional*
+#'
+#' @param process_output tabular output from `uc_process`
+#' @param output_col name of the column from process_output to be used in the analysis.
+#'     can be either of the proportion columns or either of the median_site_* columns
+#' @param filter_variable the name(s) of variables that should be included on the plot
+#' @param facet fields by which the graph should be facetted
+#' @param large_n a boolean indicating whether the large N visualization, intended for a high
+#'                volume of sites, should be used; defaults to FALSE
+#' @param large_n_sites a vector of site names that can optionally generate a filtered visualization
+#'
+#' @returns if a proportion column is selected as the output_col, a heatmap with the proportion
+#'     of unmapped values at each site for each variable will be returned. if a median column
+#'     is selected, a dot plot comparing site medians (with a star for the all-site median)
+#'     for each variable will be returned.
+#'
+#' @keywords internal
+#'
 uc_ms_exp_cs <- function(process_output,
                          output_col,
                          filter_variable = NULL,
@@ -114,6 +147,8 @@ uc_ms_exp_cs <- function(process_output,
         ggplot(aes(x = !!sym(output_col), y = variable, color = site,
                    tooltip = tooltip)) +
         geom_point_interactive(size = 3) +
+        geom_point(aes(x = !!sym(comp_var)), shape = 8, color = 'black',
+                   size = 3) +
         scale_color_squba() +
         theme_minimal() +
         facet_wrap((facet)) +
@@ -194,6 +229,27 @@ uc_ms_exp_cs <- function(process_output,
 
 
 
+#' *Multi-Site, Exploratory, Cross-Sectional*
+#'
+#' @param process_output tabular output from `uc_process`
+#' @param output_col name of the column from process_output to be used in the analysis.
+#'     can be either of the proportion columns
+#' @param large_n a boolean indicating whether the large N visualization, intended for a high
+#'                volume of sites, should be used; defaults to FALSE
+#' @param large_n_sites a vector of site names that can optionally generate a filtered visualization
+#' @param text_wrapping_char an integer indicating the length limit for text wrapping on axis text
+#'
+#' @returns a dot plot where the shape of the dot represents whether the point is
+#'         anomalous, the color of the dot represents the proportion of unmapped rows/patients
+#'         for a given variable, and the size of the dot represents the mean proportion
+#'         across all sites
+#'
+#'         if there were no groups eligible for analysis, a heat map showing the proportion
+#'         and a dot plot showing each site's average standard deviation away from the mean
+#'         proportion is returned instead
+#'
+#' @keywords internal
+#'
 uc_ms_anom_cs <- function(process_output,
                           output_col,
                           large_n = FALSE,
@@ -425,6 +481,19 @@ uc_ms_anom_cs <- function(process_output,
 
 
 
+#' *Single Site, Anomaly Detection, Cross-Sectional*
+#'
+#' @param process_output tabular output from `uc_process`
+#' @param output_col name of the column from process_output to be used in the analysis.
+#'     can be any of the outlier_ or prop_outlier_ columns
+#' @param facet fields by which the graph should be facetted
+#'
+#' @returns a bar plot displaying the number of patients, either overall or
+#' limited to patients with at least one unmapped value, who are associated with
+#' a number of unmapped rows that is further away from the mean than the SD
+#' threshold
+#'
+#' @keywords internal
 uc_ss_anom_cs <- function(process_output,
                           output_col,
                           facet = NULL){
@@ -466,6 +535,17 @@ uc_ss_anom_cs <- function(process_output,
 }
 
 
+#' *Single Site, Exploratory, Longitudinal*
+#'
+#' @param process_output tabular output from `uc_process`
+#' @param output_col name of the column from process_output to be used in the analysis.
+#'     can be any of the proportion or median columns
+#' @param facet fields by which the graph should be facetted
+#'
+#' @returns a line graph showing the proportion or median per patient of
+#' unmapped concepts per variable across the time series
+#'
+#' @keywords internal
 uc_ss_exp_la <- function(process_output,
                          output_col,
                          facet = NULL){
@@ -506,6 +586,22 @@ uc_ss_exp_la <- function(process_output,
 }
 
 
+#' *Multi Site, Exploratory, Longitudinal*
+#'
+#' @param process_output tabular output from `uc_process`
+#' @param output_col name of the column from process_output to be used in the analysis.
+#'                   can be any of the proportion or either of the median_site_* columns
+#' @param filter_variable the name(s) of variables that should be included on the plot
+#' @param facet fields by which the graph should be facetted
+#' @param large_n a boolean indicating whether the large N visualization, intended for a high
+#'                volume of sites, should be used; defaults to FALSE
+#' @param large_n_sites a vector of site names that can optionally generate a filtered visualization
+#'
+#' @returns a line graph showing the proportion or median per patient of
+#' unmapped concepts per site & variable across the time series
+#'
+#' @keywords internal
+#'
 uc_ms_exp_la <- function(process_output,
                          output_col,
                          filter_variable = NULL,
@@ -607,6 +703,22 @@ uc_ms_exp_la <- function(process_output,
 
 
 
+#' *Single Site, Anomaly Detection, Longitudinal*
+#'
+#' @param process_output tabular output from `uc_process`
+#' @param output_col name of the column from process_output to be used in the analysis.
+#'                   can be either of the proportion columns
+#' @param filter_variable the name(s) of variables that should be included on the plot
+#' @param facet fields by which the graph should be facetted
+#'
+#' @returns if analysis was executed by year or greater, a P Prime control chart
+#'          is returned with outliers marked with orange dots
+#'
+#'          if analysis was executed by month or smaller, an STL regression is
+#'          conducted and outliers are marked with red dots. the graphs representing
+#'          the data removed in the regression are also returned
+#'
+#' @keywords internal
 uc_ss_anom_la <- function(process_output,
                           output_col = NULL,
                           filter_variable = NULL,
@@ -690,6 +802,23 @@ uc_ss_anom_la <- function(process_output,
 }
 
 
+#' *Multi Site, Anomaly Detection, Longitudinal*
+#'
+#' @param process_output tabular output from `uc_process`
+#' @param filter_variable the name(s) of variables that should be included on the plot
+#' @param large_n a boolean indicating whether the large N visualization, intended for a high
+#'                volume of sites, should be used; defaults to FALSE
+#' @param large_n_sites a vector of site names that can optionally generate a filtered visualization
+#'
+#' @returns three graphs:
+#'    1) line graph that shows the smoothed proportion of
+#'    unmapped concepts across time computation with the Euclidean distance associated with each line
+#'    2) line graph that shows the raw proportion of
+#'    unmapped concepts across time computation with the Euclidean distance associated with each line
+#'    3) a bar graph with the Euclidean distance value for each site, with the average
+#'    proportion as the fill
+#'
+#' @keywords internal
 uc_ms_anom_la <- function(process_output,
                           filter_variable = NULL,
                           large_n = FALSE,

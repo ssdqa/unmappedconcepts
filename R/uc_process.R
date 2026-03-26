@@ -111,8 +111,13 @@
 #'          see the PEDSpace metadata repository
 #'
 #' @import cli
+#' @import squba.gen
+#' @import argos
+#' @import dplyr
 #'
 #' @export
+#'
+#' @example inst/example-uc_process_output.R
 #'
 uc_process <- function(cohort,
                        uc_input_file,
@@ -161,27 +166,15 @@ uc_process <- function(cohort,
 
 
   if(!time){
-    if(anomaly_or_exploratory == 'anomaly' && multi_or_single_site == 'single'){
-      uc_dat <- compute_uc_ssanom(cohort = cohort_prep,
-                                  uc_tbl = uc_input_file,
-                                  site_col = site_col,
-                                  grouped_list = grouped_list,
-                                  n_sd = n_sd,
-                                  time = FALSE,
-                                  omop_or_pcornet = omop_or_pcornet) %>%
-        replace_site_col()
-    }else{
       uc_dat <- compute_uc(cohort = cohort_prep,
                            uc_tbl = uc_input_file,
                            site_col = site_col,
                            grouped_list = grouped_list,
                            time = FALSE,
-                           omop_or_pcornet = omop_or_pcornet) %>%
-        replace_site_col()
+                           omop_or_pcornet = omop_or_pcornet)
 
-      uc_ptct <- uc_dat$pt_lv
-      uc_dat <- uc_dat$summary
-    }
+      uc_ptct <- uc_dat$pt_lv %>% replace_site_col()
+      uc_dat <- uc_dat$summary %>% replace_site_col()
 
     if(anomaly_or_exploratory == 'anomaly' && multi_or_single_site == 'multi'){
       uc_tbl_int <- compute_dist_anomalies(df_tbl = uc_dat,
@@ -194,6 +187,11 @@ uc_process <- function(cohort,
                                  p_input = p_value,
                                  column_analysis = var_col,
                                  column_variable = 'variable')
+    }else if(anomaly_or_exploratory == 'anomaly' && multi_or_single_site == 'single'){
+      uc_rslt <- compute_uc_ssanom(cohort = cohort_prep,
+                                   uc_ptlv_rslt = uc_ptct,
+                                   n_sd = n_sd) %>%
+         replace_site_col()
     }else{uc_rslt <- uc_dat}
   }else{
     uc_dat <- compute_fot(cohort = cohort_prep,

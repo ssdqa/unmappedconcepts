@@ -47,8 +47,9 @@
 #'         see the PEDSpace metadata repository
 #'
 #'
-#'
 #' @export
+#'
+#' @example inst/example-uc_process_output.R
 #'
 uc_output <- function(process_output,
                       output_col,
