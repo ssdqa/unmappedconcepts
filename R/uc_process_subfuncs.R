@@ -91,9 +91,21 @@ compute_uc <- function(cohort,
       stringr::str_split(., ',')
     vals <- vals[[1]]
 
-    unmapped_vals <-
-      tbl_use %>%
-      filter(!!sym(colname) %in% vals | is.na(!!sym(colname)))
+    if(length(vals) == 1){
+      if(is.na(vals)){
+        unmapped_vals <-
+          tbl_use %>%
+          filter(is.na(!!sym(colname)))
+      }else{
+        unmapped_vals <-
+          tbl_use %>%
+          filter(!!sym(colname) %in% vals | is.na(!!sym(colname)))
+      }
+    }else{
+      unmapped_vals <-
+        tbl_use %>%
+        filter(!!sym(colname) %in% vals | is.na(!!sym(colname)))
+    }
 
     ## proportion
     total_pts <- cohort %>%
