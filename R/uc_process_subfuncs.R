@@ -96,15 +96,45 @@ compute_uc <- function(cohort,
         unmapped_vals <-
           tbl_use %>%
           filter(is.na(!!sym(colname)))
+
+        per_pt <- tbl_use %>%
+          mutate(tag = ifelse(is.na(!!sym(colname)),
+                              'unmapped',
+                              'mapped')) %>%
+          group_by(!!sym(person_col), tag, .add = TRUE) %>%
+          summarise(unmapped_pp = n()) %>%
+          tidyr::pivot_wider(names_from = 'tag',
+                             values_from = 'unmapped_pp') %>%
+          collect()
       }else{
         unmapped_vals <-
           tbl_use %>%
           filter(!!sym(colname) %in% vals | is.na(!!sym(colname)))
+
+        per_pt <- tbl_use %>%
+          mutate(tag = ifelse(as.character(!!sym(colname)) %in% vals | is.na(!!sym(colname)),
+                              'unmapped',
+                              'mapped')) %>%
+          group_by(!!sym(person_col), tag, .add = TRUE) %>%
+          summarise(unmapped_pp = n()) %>%
+          tidyr::pivot_wider(names_from = 'tag',
+                             values_from = 'unmapped_pp') %>%
+          collect()
       }
     }else{
       unmapped_vals <-
         tbl_use %>%
         filter(!!sym(colname) %in% vals | is.na(!!sym(colname)))
+
+      per_pt <- tbl_use %>%
+        mutate(tag = ifelse(as.character(!!sym(colname)) %in% vals | is.na(!!sym(colname)),
+                            'unmapped',
+                            'mapped')) %>%
+        group_by(!!sym(person_col), tag, .add = TRUE) %>%
+        summarise(unmapped_pp = n()) %>%
+        tidyr::pivot_wider(names_from = 'tag',
+                           values_from = 'unmapped_pp') %>%
+        collect()
     }
 
     ## proportion
@@ -137,16 +167,6 @@ compute_uc <- function(cohort,
     }
 
     ## per patient
-    per_pt <- tbl_use %>%
-      mutate(tag = ifelse(as.character(!!sym(colname)) %in% vals | is.na(!!sym(colname)),
-                          'unmapped',
-                          'mapped')) %>%
-      group_by(!!sym(person_col), tag, .add = TRUE) %>%
-      summarise(unmapped_pp = n()) %>%
-      tidyr::pivot_wider(names_from = 'tag',
-                         values_from = 'unmapped_pp') %>%
-      collect()
-
     if('unmapped' %in% colnames(per_pt)){
       per_pt <- per_pt %>%
         mutate(unmapped = ifelse(is.na(unmapped), 0L, unmapped)) %>%
