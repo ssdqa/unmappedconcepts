@@ -7,7 +7,7 @@
 \format{
 \subsection{\code{uc_input_file_omop}}{
 
-A data frame with 6 columns
+A data frame with 8 columns
 \describe{
 \item{variable}{A string label for the variable of interest}
 \item{domain_tbl}{The name of the CDM table where the variable can be found}

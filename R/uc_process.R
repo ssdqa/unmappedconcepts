@@ -191,7 +191,8 @@ uc_process <- function(cohort,
       uc_rslt <- compute_uc_ssanom(cohort = cohort_prep,
                                    uc_ptlv_rslt = uc_ptct,
                                    n_sd = n_sd) %>%
-         replace_site_col()
+         replace_site_col() %>%
+         mutate(sd_threshold = n_sd)
     }else{uc_rslt <- uc_dat}
   }else{
     uc_dat <- compute_fot(cohort = cohort_prep,
@@ -209,9 +210,15 @@ uc_process <- function(cohort,
                                        omop_or_pcornet = omop_or_pcornet)
                           }) %>% replace_site_col()
 
-    uc_ptct <- uc_dat %>% select(site, time_start, time_increment, variable, person_id, unmapped) %>%
-      filter(!is.na(person_id))
-    uc_dat <- uc_dat %>% select(-c(person_id, unmapped)) %>% distinct() %>% filter(!is.na(total_rows))
+    if(tolower(omop_or_pcornet) == 'omop'){
+      uc_ptct <- uc_dat %>% select(site, time_start, time_increment, variable, person_id, unmapped) %>%
+        filter(!is.na(person_id))
+      uc_dat <- uc_dat %>% select(-c(person_id, unmapped)) %>% distinct() %>% filter(!is.na(total_rows))
+    }else{
+      uc_ptct <- uc_dat %>% select(site, time_start, time_increment, variable, patid, unmapped) %>%
+        filter(!is.na(patid))
+      uc_dat <- uc_dat %>% select(-c(patid, unmapped)) %>% distinct() %>% filter(!is.na(total_rows))
+    }
 
     if(anomaly_or_exploratory == 'anomaly' && multi_or_single_site == 'single'){
       uc_rslt <- anomalize_ss_anom_la(fot_input_tbl = uc_dat,

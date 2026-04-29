@@ -34,6 +34,7 @@ test_that('single site, anomaly detection, no time', {
   tbl_test <- tidyr::tibble('site' = 'a',
                             'n_w_fact' = 100,
                             'n_tot' = 1000,
+                            'sd_threshold' = 2,
                             'outlier_fact' = 50,
                             'outlier_tot' = 500,
                             'prop_outlier_fact' = 0.5,

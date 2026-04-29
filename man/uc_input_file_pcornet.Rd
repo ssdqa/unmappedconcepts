@@ -5,9 +5,9 @@
 \alias{uc_input_file_pcornet}
 \title{UC Sample Input File -- PCORnet}
 \format{
-\subsection{\code{uc_input_file_omop}}{
+\subsection{\code{uc_input_file_pcornet}}{
 
-A data frame with 6 columns
+A data frame with 9 columns
 \describe{
 \item{variable}{A string label for the variable of interest}
 \item{domain_tbl}{The name of the CDM table where the variable can be found}

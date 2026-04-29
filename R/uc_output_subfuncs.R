@@ -500,17 +500,19 @@ uc_ss_anom_cs <- function(process_output,
 
   cli::cli_div(theme = list(span.code = list(color = 'blue')))
 
+  n_sd <- process_output %>% distinct(sd_threshold) %>% pull()
+
   if(output_col=='outlier_fact'){
-    y_title = 'Number of Patients with Unmapped Values \n+/- 2 SD Away from Mean'
+    y_title = paste0('Number of Patients with Unmapped Values \n+/- ', n_sd, ' SD Away from Mean')
     x_lab = 'Number of Anomalous Patients with Unmapped Values'
   }else if(output_col=='prop_outlier_fact'){
-    y_title = 'Proportion of Patients with Unmapped Values \n+/- 2 SD Away from Mean'
+    y_title = paste0('Proportion of Patients with Unmapped Values \n+/- ', n_sd, ' SD Away from Mean')
     x_lab = 'Proportion of Anomalous Patients with Unmapped Values'
   }else if(output_col=='outlier_tot'){
-    y_title = 'Number of Total Patients +/- 2 SD Away from Mean'
+    y_title = paste0('Number of Total Patients +/- ', n_sd, ' SD Away from Mean')
     x_lab = 'Number of Anomalous Total Patients'
   }else if(output_col=='prop_outlier_tot'){
-    y_title = 'Proportion of Total Patients +/- 2 SD Away from Mean'
+    y_title = paste0('Proportion of Total Patients +/- ', n_sd, ' SD Away from Mean')
     x_lab = 'Proportion of Anomalous Total Patients'
   }else(cli::cli_abort('Please select a valid output_col: {.code outlier_fact}, {.code prop_outlier_fact}, {.code outlier_tot}, or
              {.code prop_outlier_tot}'))

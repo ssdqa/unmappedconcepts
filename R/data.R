@@ -12,7 +12,7 @@
 #' package and can be accessed with `ssdqa.gen::`
 #'
 #' @format ## `uc_input_file_omop`
-#' A data frame with 6 columns
+#' A data frame with 8 columns
 #' \describe{
 #'   \item{variable}{A string label for the variable of interest}
 #'   \item{domain_tbl}{The name of the CDM table where the variable can be found}
@@ -38,8 +38,8 @@
 #' Examples of appropriately structured codeset files are attached to the ssdqa.gen
 #' package and can be accessed with `ssdqa.gen::`
 #'
-#' @format ## `uc_input_file_omop`
-#' A data frame with 6 columns
+#' @format ## `uc_input_file_pcornet`
+#' A data frame with 9 columns
 #' \describe{
 #'   \item{variable}{A string label for the variable of interest}
 #'   \item{domain_tbl}{The name of the CDM table where the variable can be found}
