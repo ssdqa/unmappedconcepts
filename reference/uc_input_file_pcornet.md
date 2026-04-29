@@ -12,9 +12,9 @@ uc_input_file_pcornet
 
 ## Format
 
-### `uc_input_file_omop`
+### `uc_input_file_pcornet`
 
-A data frame with 6 columns
+A data frame with 9 columns
 
 - variable:
 

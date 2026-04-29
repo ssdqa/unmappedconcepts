@@ -14,7 +14,7 @@ uc_input_file_omop
 
 ### `uc_input_file_omop`
 
-A data frame with 6 columns
+A data frame with 8 columns
 
 - variable:
 
