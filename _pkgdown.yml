@@ -14,7 +14,7 @@ navbar:
     - text: 'Multi-Site Analysis for Independent Data Sources'
       href: articles/multisite_independent.html
   - text: 'PEDSpace'
-    href: https://hdl.handle.net/20.500.14642/2
+    href: https://hdl.handle.net/20.500.14642/26
 reference:
 - title: 'Module Execution'
   contents:
