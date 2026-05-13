@@ -207,6 +207,7 @@ metadata repository
 ## Examples
 
 ``` r
+
 #' Source setup file
 source(system.file('setup.R', package = 'unmappedconcepts'))
 

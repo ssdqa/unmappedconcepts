@@ -90,6 +90,7 @@ functions from the `squba.gen` package) to run the anomaly detection
 analysis. The `p_value` can be selected by the user.
 
 ``` r
+
 df_start <- compute_dist_anomalies(df_tbl = my_combined_results,
                                    grp_vars = c('variable'),
                                    var_col = {`unmapped_row_prop`, `unmapped_pt_prop`},
@@ -113,5 +114,6 @@ analysis.
 ``` r
 df_final <- ms_anom_euclidean(fot_input_tbl = my_combined_results,
                               grp_vars = c('site', 'variable'),
-                              var_col = {`unmapped_row_prop`, `unmapped_pt_prop`})
+                              var_col = {`unmapped_row_prop`, `unmapped_pt_prop`}) %>%
+  mutate(output_function = 'uc_ms_anom_la')
 ```
