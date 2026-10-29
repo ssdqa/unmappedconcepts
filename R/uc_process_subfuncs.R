@@ -113,7 +113,7 @@ compute_uc <- function(cohort,
           filter(!!sym(colname) %in% vals | is.na(!!sym(colname)))
 
         per_pt <- tbl_use %>%
-          mutate(tag = ifelse(as.character(!!sym(colname)) %in% vals | is.na(!!sym(colname)),
+          mutate(tag = ifelse(!!sym(colname) %in% vals | is.na(!!sym(colname)),
                               'unmapped',
                               'mapped')) %>%
           group_by(!!sym(person_col), tag, .add = TRUE) %>%
@@ -128,7 +128,7 @@ compute_uc <- function(cohort,
         filter(!!sym(colname) %in% vals | is.na(!!sym(colname)))
 
       per_pt <- tbl_use %>%
-        mutate(tag = ifelse(as.character(!!sym(colname)) %in% vals | is.na(!!sym(colname)),
+        mutate(tag = ifelse(!!sym(colname) %in% vals | is.na(!!sym(colname)),
                             'unmapped',
                             'mapped')) %>%
         group_by(!!sym(person_col), tag, .add = TRUE) %>%
