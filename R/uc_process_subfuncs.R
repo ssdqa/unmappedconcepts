@@ -90,6 +90,7 @@ compute_uc <- function(cohort,
       stringr::str_replace_all(' ', '') %>%
       stringr::str_split(., ',')
     vals <- vals[[1]]
+    if(!any(grepl('[a-zA-Z]', vals))){vals <- as.numeric(vals)}
 
     if(length(vals) == 1){
       if(is.na(vals)){
