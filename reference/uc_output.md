@@ -114,6 +114,13 @@ uc_process_example <- uc_process(cohort = cohort,
                                  omop_or_pcornet = 'omop',
                                  uc_input_file = uc_input_file_omop) %>%
   suppressMessages()
+#> Warning: Missing values are always removed in SQL aggregation functions.
+#> Use `na.rm = TRUE` to silence this warning
+#> This warning is displayed once every 8 hours.
+#> Warning: `as.sql()` was deprecated in dbplyr 2.6.0.
+#> ℹ Please use `as_table_path()` instead.
+#> ℹ The deprecated feature was likely used in the argos package.
+#>   Please report the issue to the authors.
 #> ┌ Output Function Details ─────────────────────────────────────┐
 #> │ You can optionally use this dataframe in the accompanying    │
 #> │ `uc_output` function. Here are the parameters you will need: │
@@ -130,8 +137,8 @@ uc_process_example
 #>   <chr> <chr>         <int>    <int>         <int>       <int>             <dbl>
 #> 1 comb… visit t…       1627       12             0           0                 0
 #> 2 comb… hyperte…         58       12            13           1                 0
-#> # ℹ 6 more variables: median_all_without0s <int>, median_site_with0s <dbl>,
-#> #   median_site_without0s <int>, unmapped_row_prop <dbl>,
+#> # ℹ 6 more variables: median_all_without0s <dbl>, median_site_with0s <dbl>,
+#> #   median_site_without0s <dbl>, unmapped_row_prop <dbl>,
 #> #   unmapped_pt_prop <dbl>, output_function <chr>
 
 #' Execute `uc_output` function

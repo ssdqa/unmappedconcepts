@@ -256,8 +256,8 @@ uc_process_example
 #>   <chr> <chr>         <int>    <int>         <int>       <int>             <dbl>
 #> 1 comb… visit t…       1627       12             0           0                 0
 #> 2 comb… hyperte…         58       12            13           1                 0
-#> # ℹ 6 more variables: median_all_without0s <int>, median_site_with0s <dbl>,
-#> #   median_site_without0s <int>, unmapped_row_prop <dbl>,
+#> # ℹ 6 more variables: median_all_without0s <dbl>, median_site_with0s <dbl>,
+#> #   median_site_without0s <dbl>, unmapped_row_prop <dbl>,
 #> #   unmapped_pt_prop <dbl>, output_function <chr>
 
 #' Execute `uc_output` function
